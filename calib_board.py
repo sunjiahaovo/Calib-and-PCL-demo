@@ -6,7 +6,7 @@ from mpl_toolkits.mplot3d import Axes3D  # 空间三维画图
 import icp
 import os
 
-base_dir = "data2/calib_v1"
+base_dir = "data/calib_v1"
 
 # -*- coding: utf-8 -*-
 import cv2
@@ -115,11 +115,9 @@ def get_board2cam():
     obj_points_opt = np.array(obj_points_opt).astype(np.float64)
     # print(obj_points,obj_points.shape)
     
-    
-    camera_matrix = np.array([[911.87, 0, 640],
-                    [0, 911.87, 360],
+    camera_matrix = np.array([[607.89, 0, 320.26],
+                    [0, 607.93, 238.11],
                     [0, 0, 1]])  
-    
 
     print(image_points)
     # print(obj_points.shape,image_points.shape,camera_matrix.shape)
