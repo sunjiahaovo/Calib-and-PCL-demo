@@ -30,35 +30,23 @@ FOR1 = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.5, origin=[0,0, 
 
 # load xyzw
 pose_vec = np.loadtxt("data_for_pcl/jiahao_flight1.txt")[:]
-optitrack_time = pose_vec[:,0]
-t265_time = pose_vec[:,8]
-optitrack_t = pose_vec[:,1:4]
-optitrack_q = pose_vec[:,4:8]
-t265_t = pose_vec[:,9:12]
-t265_q = pose_vec[:,12:16]
+t265_time = pose_vec[:,0]
+t265_t = pose_vec[:,1:4]
+t265_q = pose_vec[:,4:8]
 
-init_time = optitrack_time[0]
-for i in range(optitrack_time.shape[0]):
-    optitrack_time[i] = optitrack_time[i] - init_time
+init_time = t265_time[0]
+for i in range(t265_time.shape[0]):
     t265_time[i] = t265_time[i] - init_time
 
 # set up rotation matrix
-optitrack_R = []
 t265_R = []
 
 # set up trans matrix
-optitrack_T = np.zeros((4, 4))
 t265_T = np.zeros((4, 4))
 
 # q2R2T
-for i in range(optitrack_time.shape[0]):
+for i in range(t265_time.shape[0]):
     # 创建旋转矩阵
-    optitrack_R = R.from_quat([optitrack_q[i, 0],optitrack_q[i, 1],optitrack_q[i, 2],optitrack_q[i, 3]])
-    optitrack_T[:3, :3] = optitrack_R.as_matrix()
-    optitrack_T[:3, 3] = optitrack_t[i, :3]
-    optitrack_T[3, 3] = 1
-    np.savetxt(os.path.join(base_dir, f'{i}_optitrack_pose.txt'), optitrack_T)
-    
     t265_R = R.from_quat([t265_q[i,0],t265_q[i,1],t265_q[i,2],t265_q[i,3]])
     t265_T[:3, :3] = t265_R.as_matrix()
     t265_T[:3, 3] = t265_t[i, :3]
@@ -93,7 +81,6 @@ for i in np.arange(0,2390,10):
     pcd.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
     
     # transform
-    # uav_pose = np.loadtxt(os.path.join(base_dir,f'{i}_optitrack_pose.txt'), delimiter = " ")
     uav_pose = np.loadtxt(os.path.join(base_dir,f'{i}_t265_pose.txt'), delimiter = " ")
     # print(uav_pose)
     # trans = uav_pose @ offset_T

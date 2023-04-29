@@ -234,4 +234,5 @@ if __name__ == '__main__':
     uav_pose = np.loadtxt(os.path.join(base_dir,"%d_pose.txt"%(0)),delimiter=",")
     print("uav_pose = ",uav_pose)
     print("offset_final = \n", np.linalg.inv(T_o2c@uav_pose))
+    np.savetxt("data/offset_pnp_v1.txt", np.linalg.inv(T_o2c@uav_pose))
 
