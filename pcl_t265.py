@@ -73,6 +73,12 @@ for i in np.arange(0,2390,10):
     width = 640
     height = 480
 
+    #L515内参
+    fx, fy, cx, cy = 898.24, 899.08, 651.06, 373.99
+    width = 1280
+    height = 720
+
+
     intrinsic = o3d.camera.PinholeCameraIntrinsic(width, height, fx, fy, cx, cy)
 
 
